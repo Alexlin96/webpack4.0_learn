@@ -2,7 +2,7 @@
 
 ## 目录结构
 
-build----webpack的配置文件，分为webpack.base.js公共配置、webpack.dev.js开发环境配置、webpack.prod.js
+build----webpack的配置文件，分为webpack.base.js公共配置、webpack.dev.js开发环境配置、webpack.prod.js生产环境配置
 
 src---demo代码
 
