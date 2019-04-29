@@ -1,3 +1,5 @@
+# 学习webpack4.0使用 ，手动配置webpack4.0基本配置
+
 ## 目录结构
 
 build----webpack的配置文件，分为webpack.base.js公共配置、webpack.dev.js开发环境配置、webpack.prod.js
@@ -17,7 +19,7 @@ npm run dev   运行
 ```
 
 ```
-npm run build     打包
+npm run build  打包
 ```
 
 ### 浏览器预览
