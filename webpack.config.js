@@ -31,7 +31,7 @@ module.exports = {
                     options:{
                         name: '[name].[ext]', //对打包后的图片命名
                         outputPath:'image/',  //打包后图片输出的位置   dist\images
-                        limit: 20480     // 1024 == 1kb  小于20kb时打包成base64编码的图片否则单独打包成图片
+                        limit: 20480     // 1024 == 1kb  小于20kb时打包成base64编码的图片否则单独打包成图片 （图片文件越大，打包后base64的js就越大，加载一起就越大，所以base64适合小的图片）
                     }
                 }
             },
@@ -55,7 +55,7 @@ module.exports = {
                     loader:'css-loader',
                     options:{
                         //importLoaders 用于配置css-loader作用于@import的资源之前有多少个loader先作用于@import的资源
-                        importLoaders: 2,
+                        importLoaders: 2,  //0 => 无 loader(默认); 1 => postcss-loader; 2 => postcss-loader, sass-loader
                         modules: true //加载css模块化打包，避免样式文件之间相互影响
                     }
                 }

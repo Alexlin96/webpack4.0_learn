@@ -2,11 +2,14 @@ let demo = '我是webpack4,不是webpack3,也不是webpack2';
 
 
 import image from './images/twoyears.jpg'
-import style from './css/style.css'
+import './css/index.scss'
+// import style from './css/style.css'
 
-let img = new Image();
+console.log('我是图片地址',image)
+
+let img = new Image(); // 这里可以拿到图片地址
 img.src = image;
-img.classList.add(style.img)
+//img.classList.add(style.img)
 
 const testMap = new Map(
     [

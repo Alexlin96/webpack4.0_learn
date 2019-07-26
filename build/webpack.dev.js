@@ -1,7 +1,7 @@
 //webpack.dev.js：是开发环境
 const webpack=require('webpack');
 const merge = require('webpack-merge');   //结合插件
-const baseConfig=require('./webpack.base');  //公共配置
+const baseConfig = require('./webpack.base');  //公共配置
 
 const devConfig = {
     // mode环境模式   development开发环境
@@ -22,4 +22,4 @@ const devConfig = {
     }
 }
 
-modules.exports = merge(baseConfig,devConfig);
+module.exports = merge(baseConfig,devConfig);
