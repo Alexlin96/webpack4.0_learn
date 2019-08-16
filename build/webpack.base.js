@@ -5,7 +5,8 @@ const cleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
     entry:{  //多入口配置 当有多入口的时候，需要修改filename的属性值为'[name].js'
-        index:'./src/index.js',
+        //index:["@babel/polyfill", "./src/index.js"],
+        index:"./src/index.js",
         // main:'./src/index.js',
     },
     // output 打包完成后文件输出位置配置
@@ -32,8 +33,8 @@ module.exports = {
                 use:{
                     loader: 'url-loader',
                     options:{
-                        name: '[name].[ext]', //对打包后的图片命名  ext拓展名 name文件名
-                        outputPath:'image/',  //打包后图片输出的位置   dist\images
+                        name: '[name].[ext]', // 对打包后的图片命名  ext拓展名 name文件名
+                        outputPath:'image/',  // 打包后图片输出的位置   dist\images
                         limit: 20480     // 1024 == 1kb  小于20kb时打包成base64编码的图片否则单独打包成图片
                     }
                 }
@@ -72,7 +73,7 @@ module.exports = {
             },
             {
                 test:/\.scss$/,
-                use:[   // 有执行顺序的 顺序不能乱 从下至上
+                use:[   // 有执行顺序的 顺序不能乱 从下至上 加载顺序是从后向前
                         {
                             loader:'style-loader', // 将字符串生成为style节点
                         },
@@ -93,9 +94,10 @@ module.exports = {
             // babel-loader 转码
             {
                 test: /\.js$/,
-                exclude: path.resolve(__dirname,'node_modules'),   // loader 的排除范围(不明显)
-                loader: 'babel-loader',
-                include: path.resolve(__dirname,'src'),  // loader的处理范围
+                exclude: /node_modules/,
+                // exclude: path.resolve(__dirname,'../node_modules'),   // loader 的排除范围(不明显)
+                // include: path.resolve(__dirname,'../src'),  // loader的处理范围
+                loader: 'babel-loader',    
             }
         ]
     },
@@ -106,4 +108,35 @@ module.exports = {
         }),
         new cleanWebpackPlugin(),   // 每次打包生成的dist目录，如果改一次代码，都得要删除一次dist目录，这样很麻烦，可以通过clean-webpack-plugin在每次打包的前自动清空dist目录。
     ],
+    optimization:{  // SplitChunksPlugin 
+        splitChunks:{    // 代码分割
+            chunks: 'all',
+            //minSize: 8000, // 大于30kb才进行代码分割
+            //maxSize: 10000, // 打包后的文件大小如果大于这个值,则进行二次打包
+            // minChunks: 1, // 项目打包后的文件如果有多个文件导入的文件相同，且至少被引用几次，才会进行分割
+            // maxAsyncRequests: 5, // 分离打包后若产生了5个文件，则之后的导入不再进行代码分割了
+            // maxInitialRequests: 3, // 入口文件最多分割出三个包
+            // automaticNameDelimiter: '~',
+            name: true,
+            // 分组打包 缓存组
+            cacheGroups: {   // 一条规则对应一个打包组,vendors和default分别是一个组,符合匹配规则的代码块会打包到同一个组里
+                vendors: {
+                  test: /[\\/]node_modules[\\/]/, // 检测静态引入的依赖是否是这个目录下引入的,是则按这套规则打包
+                  priority: -10, // 打包时如果引入的代码块满足多个组的匹配条件,则根据优先级，打包到优先级更高的组里
+                  // filename: 'vendors.js' // 给打包文件取名,好像不起作用
+                  name: 'myPack' // 自定义打包文件名
+                },
+                default: {
+                  // minChunks: 2,
+                  priority: -20,
+                  reuseExistingChunk: true // 复用已经被打包过的模块
+                }
+              }
+        },
+        performance: false, // 引入第三方库文件过大时编辑器控制台会报出黄色警告，这个配置可以关闭性能提示
+       
+        usedExports: true,  // 开启tree shaking
+
+
+    }
 }
