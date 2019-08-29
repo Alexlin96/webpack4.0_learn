@@ -1,4 +1,4 @@
-# 学习webpack4.0使用 ，手动配置webpack4.0基本配置
+# 学习webpack4.0使用 ，手动配置webpack4.0基本配置。
 
 ## 目录结构
 
