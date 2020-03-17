@@ -26,5 +26,7 @@ npm run build  打包
 
     打开地址 http://localhost:8080
 
+dev
+
 
 ​	
